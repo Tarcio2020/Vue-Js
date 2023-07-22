@@ -26,4 +26,32 @@ npm run dev
 
 ```sh
 npm run build
+
 ```
+Vamos configurar nosso setup:
+Para começar vamos apagar as pastas em src:
+    assets
+    components
+
+Em App.vue vamos remover essas duas referencias:
+
+No <script> exclui:
+
+    import HelloWorld from './components/HelloWorld.vue'
+    import TheWelcome from './components/TheWelcome.vue'
+
+No <template> exclui tudo e cria um h1 com Hello Word.
+
+Em <style> só deixamos as tags.
+
+Em main.js vamos remover essas referencias:
+
+De Css:
+
+
+
+
+
+
+
+
