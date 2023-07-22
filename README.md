@@ -46,10 +46,14 @@ Em <style> só deixamos as tags.
 
 Em main.js vamos remover essas referencias:
 
-De Css:
+    a referenciade css
 
+____________________________________________________________________________
 
-
+v-if
+v-show
+v-else-if
+tomar cuidado com a posição das tags a cima 
 
 
 
