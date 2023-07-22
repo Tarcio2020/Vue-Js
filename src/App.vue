@@ -18,73 +18,144 @@ import { reactive } from 'vue';
 
   const botaoEstaDesabilitado = false;
 
-  const gostaDoOmatematico = true;
+  const gostaDoOmatematico = false;
   const gostaDoOppehaimer = false;
   const estaAutorizado = false;
-  //let contador =0;
+//  const nomes = ['Tarcio', 'Teles', 'Silva', 'Farias', 'Joana', 'José']
 
+  
   function incrementar () {
     estado.contador++;
   }
-
+  
   function decrementar () {
     estado.contador--;
   }
-
+  
+  //let contador =0;
   const estado = reactive({
     contador: 0,
     email: '',
+    saldo: 5000,
+    transferindo: 0,
+    nomes: ['Tarcio', 'Teles', 'Silva', 'Farias', 'Joana', 'José'],
+    nomeAInserir: '',
+
+
   });
 
+  function mostraSaldoFuturo () {
+    const {saldo, transferindo} = estado; //de onde iremos tirar os dados.//desestruturação de objetos
+    return saldo - transferindo;
+  }
+
+  
 
   function alteraEmail(evento) {
-    estado.email = evento.target.value;
+    estado.email = console.log(evento.target.value);
   }
+
+  function validarValor () {
+    return estado.transferindo<estado.saldo;
+  }
+
+  function cadastrarNome() {
+    if (estado.nomeAInserir.length >= 3) {
+      estado.nomes.push(estado.nomeAInserir)
+    } else {
+      alert('Digite mais caracteres')
+    }
+  }
+
+
+
 </script>
 
+
+
+
+
+
+
 <template>
-  <h1>
-   Olá vue o {{ nome }} te deseja um ótimo Hello Word!!!
-   <br>
-   {{ 10 * 15 }}
-  </h1>
-  <h3>
-    {{ meuObj.filmeFavorito }}
+    <h1>
+    Olá vue o {{ nome }} te deseja um ótimo Hello Word!!!
     <br>
-    {{dizOla() }}
+    {{ 10 * 15 }}
+    </h1>
+    <h3>
+      {{ meuObj.filmeFavorito }}
+      <br>
+      {{dizOla() }}
 
-  </h3>
+    </h3>
 
 
-  <img v-if="gostaDoOmatematico" :src="ImagemDoFilmeOMatematico" alt="Filme O Matemático">
-  <img v-else-if="gostaDoOppehaimer" :src="imagemFilmeOppehaimer" alt="">
-  <br><br>
-  <button :disabled="botaoEstaDesabilitado">Enviar Menssagem</button>
+    <img v-if="gostaDoOmatematico" :src="ImagemDoFilmeOMatematico" alt="Filme O Matemático">
+    <img v-else-if="gostaDoOppehaimer" :src="imagemFilmeOppehaimer" alt="">
+    <br><br>
+    <button :disabled="botaoEstaDesabilitado">Enviar Menssagem</button>
+    
+    <h1 v-if="estaAutorizado">Bem-Vindo</h1>
+    <h1 v-else>Não possui acesso!</h1>
+    <hr>
+    {{ estado.contador }}
+
+    <button @click="incrementar" type="button">+</button>
+    <button @click="decrementar" type="button">-</button>
+
+    <br><hr><br>
+
+    {{ estado.email }}
+    <input type="email" @change="evento => estado.email = evento.target.value">
+    <input type="email" @keyup="alteraEmail">
+
+    <br><hr><br>
+
+    Saldo: {{ estado.saldo }} <br>
+    Transferindo: {{ estado.transferindo }} <br>
+    Saldo depois da transação: {{ mostraSaldoFuturo() }} <br>
+    <input :class="campo" class="{invalido: !validarValor() }" @keyup="evento => estado.transferindo = evento.target.value" type="number" placeholder="Quantia para transferir" />
+    <button v-if="validarValor()"  type="submit">Transferir</button>
+    <span v-else>Saldo indisponível</span>
+    <br><hr><br>
+    <br><hr><br>
+
+    <ul>
+      <li v-for="nome in estado.nomes">
+        {{ nome }}
+      </li>
+    </ul>
+
+    <input @keyup="evento => estado.nomeAInserir = evento.target.value" type="text" placeholder="Digite um novo nome">
+    <button @click="cadastrarNome()" type="button">Cadastrar Nome</button>
+    <h3 v-for="nome in estado.nomes">{{ nome }}</h3>
   
-  <h1 v-if="estaAutorizado">Bem-Vindo</h1>
-  <h1 v-else>Não possui acesso!</h1>
-  <hr>
-  {{ estado.contador }}
-
-  <button @click="incrementar" type="button">+</button>
-  <button @click="decrementar" type="button">-</button>
-
-  <br><hr><br>
-
-  {{ estado.email }}
-  <input type="email" @change="evento => estado.email = evento.target.value">
-
-  <br><hr><br>
-
-  <input type="email" @keyup="alteraEmail">
-
 </template>
+
+
+
+
+
+
+
+
 
 <style scoped>
   img {
     max-width: 200px;
     height: 150px;
     border-radius: 18px;
+  }
+
+  .invalido {
+    outline-color: red;
+    border-color: red;
+
+  }
+
+  .campo{
+    border: solid 4px black;
   }
 
 </style>
