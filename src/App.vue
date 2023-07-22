@@ -1,4 +1,6 @@
 <script setup>
+import { reactive } from 'vue';
+
   const nome = 'Tarcio Teles';
   const meuObj = {
     nome: 'Teles',
@@ -19,6 +21,25 @@
   const gostaDoOmatematico = true;
   const gostaDoOppehaimer = false;
   const estaAutorizado = false;
+  //let contador =0;
+
+  function incrementar () {
+    estado.contador++;
+  }
+
+  function decrementar () {
+    estado.contador--;
+  }
+
+  const estado = reactive({
+    contador: 0,
+    email: '',
+  });
+
+
+  function alteraEmail(evento) {
+    estado.email = evento.target.value;
+  }
 </script>
 
 <template>
@@ -41,7 +62,22 @@
   <button :disabled="botaoEstaDesabilitado">Enviar Menssagem</button>
   
   <h1 v-if="estaAutorizado">Bem-Vindo</h1>
-  <h1 v-else>Não curto filmes de Matemática</h1>
+  <h1 v-else>Não possui acesso!</h1>
+  <hr>
+  {{ estado.contador }}
+
+  <button @click="incrementar" type="button">+</button>
+  <button @click="decrementar" type="button">-</button>
+
+  <br><hr><br>
+
+  {{ estado.email }}
+  <input type="email" @change="evento => estado.email = evento.target.value">
+
+  <br><hr><br>
+
+  <input type="email" @keyup="alteraEmail">
+
 </template>
 
 <style scoped>
